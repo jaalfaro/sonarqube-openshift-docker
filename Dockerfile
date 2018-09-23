@@ -12,6 +12,7 @@ USER root
 
 # Http port
 EXPOSE 9000
+ADD root /
 
 RUN groupadd -r sonarqube && useradd -r -g sonarqube sonarqube
 
