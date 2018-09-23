@@ -8,6 +8,8 @@ ENV SONAR_VERSION=7.1 \
     SONARQUBE_JDBC_PASSWORD=sonar \
     SONARQUBE_JDBC_URL=
 
+USER root 
+
 # Http port
 EXPOSE 9000
 
@@ -46,4 +48,10 @@ VOLUME "$SONARQUBE_HOME/data"
 
 WORKDIR $SONARQUBE_HOME
 COPY run.sh $SONARQUBE_HOME/bin/
+
+RUN useradd -r sonar
+RUN /usr/bin/fix-permissions $SONARQUBE_HOME \
+    && chmod 775 $SONARQUBE_HOME/bin/run.sh
+USER sonar
+
 ENTRYPOINT ["./bin/run.sh"]
